@@ -5,81 +5,74 @@
 :root {
   --foreground-rgb: 10, 10, 10;
   --background-rgb: 252, 252, 252;
-  --accent-color: 0, 0, 0;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
-  /* Dot Pattern Background agar tidak polos mati */
-  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  /* Pattern Dot Halus */
+  background-image: radial-gradient(#e5e7eb 1.5px, transparent 1.5px);
   background-size: 24px 24px;
+  overflow-x: hidden; /* Mencegah scroll samping */
 }
 
-/* Animasi Mengetik (Typewriter) */
+/* Utilities */
+.card-clean {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.04);
+  border-radius: 2rem;
+}
+
+/* Header Glass Super Blur */
+.header-glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
+/* FIXED TYPING ANIMATION */
+/* Menggunakan max-width agar spasi awal tidak lebar */
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+  from { max-width: 0; }
+  to { max-width: 100%; }
 }
 @keyframes blink {
-  50% { border-color: transparent }
+  50% { border-color: transparent; }
 }
 
-.typewriter-text {
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 3px solid #22c55e; /* Kursor warna hijau */
-  width: 0;
-  animation: 
-    typing 2s steps(20, end) forwards,
-    blink .75s step-end infinite;
-  animation-delay: 0.5s; /* Delay sedikit sebelum mulai ngetik */
-  animation-fill-mode: forwards; /* Stop di huruf terakhir */
-  display: inline-block;
+.typewriter-wrapper {
+  display: inline-flex;
   vertical-align: bottom;
 }
 
-/* Utilities Kartu */
-.card-clean {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(0,0,0,0.04);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-  border-radius: 1.5rem; /* Radius sedikit dikecilkan agar tidak terlalu bulky */
+.typewriter-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #22c55e; /* Kursor Hijau */
+  max-width: 0; /* Start dari 0 */
+  animation: 
+    typing 1.5s steps(10, end) forwards,
+    blink .75s step-end infinite;
+  animation-delay: 0.2s;
 }
 
-/* Tombol Premium Kecil */
-.btn-primary {
-  background-color: #000000;
-  color: #ffffff;
-  border-radius: 9999px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  transition: all 0.2s ease;
-  font-size: 0.875rem; /* Text lebih kecil (14px) */
+/* Floating Animation untuk Badges */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
-.btn-primary:active { transform: scale(0.96); }
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+.animate-float-delay {
+  animation: float 5s ease-in-out infinite;
+  animation-delay: 2s;
+}
 
-/* Range Slider Halus */
-input[type=range] {
-  -webkit-appearance: none;
-  background: transparent;
-}
-input[type=range]:focus { outline: none; }
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  height: 18px; /* Diperkecil dari 24px */
-  width: 18px;  /* Diperkecil dari 24px */
-  border-radius: 50%;
-  background: #000000;
-  border: 2px solid #ffffff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  cursor: pointer;
-  margin-top: -7px;
-}
-input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 4px;
-  background: #e2e8f0;
-  border-radius: 9999px;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
