@@ -14,8 +14,6 @@ export default function Home() {
   const [compressedSize, setCompressedSize] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
-  // State untuk Modal Info Teknis
   const [showInfo, setShowInfo] = useState(false);
 
   const handleFileSelect = (selectedFile: File) => {
@@ -50,30 +48,22 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen pb-10 relative selection:bg-green-100">
+    <main className="min-h-screen pb-10 relative selection:bg-green-100 overflow-x-hidden">
       
-      {/* HEADER MANUAL (Agar efek blur maksimal) */}
-      <nav className="fixed top-0 left-0 w-full z-40 header-glass transition-all">
-        <div className="max-w-md mx-auto px-6 h-16 flex items-center gap-3">
-          <div className="bg-black text-white p-1.5 rounded-xl shadow-lg">
-            <Zap size={18} fill="currentColor" />
-          </div>
-          <span className="font-bold text-lg tracking-tight text-slate-900">
-            CompressImage
-          </span>
-        </div>
-      </nav>
+      {/* Header dipanggil di sini (isinya sudah diupdate di file Header.tsx) */}
+      <Header />
 
       {/* HERO SECTION */}
-      <section className="pt-28 pb-6 px-5 max-w-lg mx-auto text-center relative z-10">
+      {/* UPDATE: max-w-md dan px-5 agar lurus dengan Header */}
+      <section className="pt-28 pb-6 px-5 max-w-md mx-auto text-center relative z-10">
         
-        {/* Floating Badges (Elemen Dekoratif "Rame") */}
-        <div className="absolute top-20 left-4 animate-float -z-10 opacity-60">
+        {/* Floating Badges */}
+        <div className="absolute top-20 left-2 animate-float -z-10 opacity-60 pointer-events-none">
            <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100 transform -rotate-12">
-              <Shield size={20} className="text-blue-500" />
+              <Shield size={18} className="text-blue-500" />
            </div>
         </div>
-        <div className="absolute top-24 right-6 animate-float-delay -z-10 opacity-60">
+        <div className="absolute top-24 right-2 animate-float-delay -z-10 opacity-60 pointer-events-none">
            <div className="bg-white px-3 py-1.5 rounded-full shadow-sm border border-gray-100 transform rotate-6">
               <span className="text-[10px] font-bold text-green-600">Max 20MB</span>
            </div>
@@ -88,11 +78,10 @@ export default function Home() {
           <span className="text-[10px] font-bold text-gray-600 tracking-wide uppercase">System V1.0 Online</span>
         </div>
         
-        {/* Headline FIX Spasi */}
+        {/* Headline */}
         <h1 className="text-4xl font-extrabold text-slate-900 leading-tight mb-4 tracking-tight">
           Kompresi Gambar <br/>
           seperti 
-          {/* Wrapper ini memastikan teks nempel */}
           <span className="typewriter-wrapper ml-2 align-bottom">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600 typewriter-text px-1">
               Magic
@@ -105,16 +94,16 @@ export default function Home() {
         </p>
 
         {/* Tombol Navigasi */}
-        <div className="flex justify-center gap-3">
+        <div className="flex justify-center gap-3 w-full">
           <button 
             onClick={() => document.getElementById('upload-area')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-black text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-xl shadow-gray-200 hover:scale-105 transition-transform"
+            className="bg-black text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-xl shadow-gray-200 hover:scale-105 transition-transform active:scale-95"
           >
             Mulai Kompres
           </button>
           <button 
             onClick={() => setShowInfo(true)}
-            className="px-6 py-2.5 bg-white text-gray-700 font-bold rounded-full border border-gray-200 text-sm hover:bg-gray-50 transition-colors shadow-sm"
+            className="px-6 py-2.5 bg-white text-gray-700 font-bold rounded-full border border-gray-200 text-sm hover:bg-gray-50 transition-colors shadow-sm active:scale-95"
           >
             Info Teknis
           </button>
@@ -122,17 +111,17 @@ export default function Home() {
       </section>
 
       {/* DASHBOARD AREA */}
-      <section id="upload-area" className="px-4 max-w-md mx-auto relative">
+      {/* UPDATE: overflow-hidden added to prevent blobs from creating horizontal scroll */}
+      <section id="upload-area" className="px-5 max-w-md mx-auto relative overflow-hidden py-4">
         
-        {/* Dekorasi Tambahan di belakang Card */}
-        <div className="absolute -top-10 -left-10 w-40 h-40 bg-green-200/20 rounded-full blur-3xl -z-10"></div>
-        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-200/20 rounded-full blur-3xl -z-10"></div>
+        {/* Dekorasi Background (Sekarang aman karena ada overflow-hidden di parent) */}
+        <div className="absolute -top-10 -left-10 w-40 h-40 bg-green-200/20 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-200/20 rounded-full blur-3xl -z-10 pointer-events-none"></div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-full">
           
           {/* Upload Card */}
-          <div className="card-clean p-1.5 relative group">
-             {/* Badge "Free" nempel di ujung */}
+          <div className="card-clean p-1.5 relative group w-full">
              <div className="absolute -top-2 -right-2 bg-black text-white text-[10px] font-bold px-2 py-1 rounded-lg z-20 shadow-lg transform group-hover:scale-110 transition-transform">
                FREE
              </div>
@@ -141,20 +130,20 @@ export default function Home() {
           
           {/* Slider */}
           {file && (
-            <div className="card-clean animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="card-clean animate-in fade-in slide-in-from-bottom-4 duration-500 w-full">
                <SliderQuality quality={quality} setQuality={setQuality} disabled={isLoading} />
             </div>
           )}
 
           {/* Action Button & Result */}
-          <div className="card-clean p-5 text-center bg-white relative overflow-hidden shadow-lg border-b-4 border-gray-100">
+          <div className="card-clean p-5 text-center bg-white relative overflow-hidden shadow-lg border-b-4 border-gray-100 w-full">
              {!file ? (
                <div className="flex flex-col items-center justify-center py-4 gap-2 opacity-40">
                   <Smartphone size={24} />
                   <p className="text-xs font-bold text-gray-400">Siap untuk Mobile</p>
                </div>
              ) : (
-               <div className="z-10 relative">
+               <div className="z-10 relative w-full">
                   <div className="h-48 w-full bg-[#f8fafc] rounded-2xl mb-4 overflow-hidden border border-gray-100 relative group">
                     <img 
                       src={compressedImage || URL.createObjectURL(file)} 
@@ -162,7 +151,7 @@ export default function Home() {
                       alt="Preview"
                     />
                     {compressedImage && (
-                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-green-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-green-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1 whitespace-nowrap">
                         <FileCheck size={12} /> Selesai
                       </div>
                     )}
@@ -187,7 +176,7 @@ export default function Home() {
 
           {/* Stats */}
           {file && compressedImage && (
-             <div className="card-clean p-5 animate-in fade-in slide-in-from-bottom-6 border-l-4 border-l-green-500">
+             <div className="card-clean p-5 animate-in fade-in slide-in-from-bottom-6 border-l-4 border-l-green-500 w-full">
                 <ImagePreview originalFile={file} compressedImage={compressedImage} compressedSize={compressedSize} />
              </div>
           )}
@@ -201,13 +190,11 @@ export default function Home() {
       {/* --- MODAL INFO TEKNIS --- */}
       {showInfo && (
         <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center px-4 pb-4 md:pb-0">
-          {/* Backdrop Blur */}
           <div 
             className="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity"
             onClick={() => setShowInfo(false)}
           ></div>
           
-          {/* Modal Content */}
           <div className="bg-white w-full max-w-sm rounded-[2rem] p-6 relative z-10 animate-in slide-in-from-bottom-10 md:zoom-in-95 shadow-2xl">
             <button 
               onClick={() => setShowInfo(false)}
