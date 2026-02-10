@@ -4,52 +4,63 @@
 
 :root {
   --foreground-rgb: 10, 10, 10;
-  --background-rgb: 250, 250, 250; /* #FAFAFA - Off white premium */
-  --accent-mint: 187, 247, 208; /* Mint Green seperti di gambar */
+  --background-rgb: 252, 252, 252;
+  --accent-color: 0, 0, 0;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  /* Dot Pattern Background agar tidak polos mati */
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+/* Animasi Mengetik (Typewriter) */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+@keyframes blink {
+  50% { border-color: transparent }
+}
 
-/* Utilities Persis Referensi */
+.typewriter-text {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #22c55e; /* Kursor warna hijau */
+  width: 0;
+  animation: 
+    typing 2s steps(20, end) forwards,
+    blink .75s step-end infinite;
+  animation-delay: 0.5s; /* Delay sedikit sebelum mulai ngetik */
+  animation-fill-mode: forwards; /* Stop di huruf terakhir */
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+/* Utilities Kartu */
 .card-clean {
-  background: #ffffff;
-  border: 1px solid #f3f4f6;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
-  border-radius: 2rem; /* Sudut sangat bulat */
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0,0,0,0.04);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 1.5rem; /* Radius sedikit dikecilkan agar tidak terlalu bulky */
 }
 
-.btn-black {
+/* Tombol Premium Kecil */
+.btn-primary {
   background-color: #000000;
   color: #ffffff;
-  border-radius: 9999px; /* Pill shape */
-  font-weight: 600;
-  transition: transform 0.2s, opacity 0.2s;
-}
-.btn-black:hover { opacity: 0.9; transform: translateY(-1px); }
-.btn-black:active { transform: scale(0.98); }
-
-.badge-pill {
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  padding: 4px 12px;
   border-radius: 9999px;
-  font-size: 12px;
   font-weight: 600;
-  color: #374151;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  letter-spacing: -0.01em;
+  transition: all 0.2s ease;
+  font-size: 0.875rem; /* Text lebih kecil (14px) */
 }
+.btn-primary:active { transform: scale(0.96); }
 
-/* Slider Customization (Mint Green Accent) */
+/* Range Slider Halus */
 input[type=range] {
   -webkit-appearance: none;
   background: transparent;
@@ -57,19 +68,18 @@ input[type=range] {
 input[type=range]:focus { outline: none; }
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  height: 24px;
-  width: 24px;
+  height: 18px; /* Diperkecil dari 24px */
+  width: 18px;  /* Diperkecil dari 24px */
   border-radius: 50%;
   background: #000000;
-  border: 4px solid #ffffff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   cursor: pointer;
-  margin-top: -10px;
+  margin-top: -7px;
 }
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
-  height: 6px;
-  cursor: pointer;
-  background: #e5e7eb;
+  height: 4px;
+  background: #e2e8f0;
   border-radius: 9999px;
 }
