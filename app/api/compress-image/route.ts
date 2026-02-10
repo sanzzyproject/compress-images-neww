@@ -38,7 +38,9 @@ export async function POST(req: NextRequest) {
     const result = await processImage(buffer, file.type, qualityInt);
 
     // 5. Return Result Stream
-    return new NextResponse(result.buffer, {
+    // FIX ERROR VERCEL: Gunakan 'as any' atau 'as BodyInit' 
+    // agar TypeScript tidak komplain soal tipe Buffer vs Web Response
+    return new NextResponse(result.buffer as any, {
       status: 200,
       headers: {
         "Content-Type": result.contentType,
