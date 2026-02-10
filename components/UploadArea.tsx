@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { UploadCloud, Image as ImageIcon, Plus } from 'lucide-react';
+import { UploadCloud, Image as ImageIcon, ArrowUpRight } from 'lucide-react';
 
 interface UploadAreaProps {
   onFileSelect: (file: File) => void;
@@ -41,28 +41,29 @@ export default function UploadArea({ onFileSelect }: UploadAreaProps) {
       onDrop={handleDrop}
       onClick={() => inputRef.current?.click()}
       className={`
-        relative w-full h-52 md:h-64 rounded-2xl border border-dashed flex flex-col items-center justify-center cursor-pointer transition-all duration-200
+        group relative w-full aspect-[4/3] md:aspect-video rounded-[2rem] border transition-all duration-300 cursor-pointer overflow-hidden flex flex-col items-center justify-center text-center p-6
         ${isDragging 
-          ? 'border-brand-500 bg-brand-50 shadow-inner' 
-          : 'border-slate-300 bg-slate-50/50 hover:bg-white hover:border-brand-400'
+          ? 'bg-gray-50 border-gray-300 scale-[0.99]' 
+          : 'bg-white border-gray-100 hover:border-gray-200 hover:shadow-lg'
         }
       `}
     >
       <input type="file" className="hidden" ref={inputRef} onChange={handleChange} accept="image/png, image/jpeg, image/webp" />
       
-      <div className={`p-3 rounded-xl mb-3 transition-transform duration-200 ${isDragging ? 'scale-110 bg-white' : 'bg-white shadow-sm border border-slate-100'}`}>
-        {isDragging ? (
-          <Plus className="h-6 w-6 text-brand-600" />
-        ) : (
-          <UploadCloud className="h-6 w-6 text-slate-400" />
-        )}
+      {/* Decorative Icon Circle similar to reference cards */}
+      <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+         <UploadCloud className="text-black" size={32} strokeWidth={1.5} />
       </div>
-      
-      <h3 className="text-sm md:text-base font-semibold text-slate-700 text-center">
-        {isDragging ? 'Lepaskan File' : 'Klik / Drag Foto'}
-      </h3>
-      
-      <p className="text-xs text-slate-400 mt-1">Max 20MB (JPG/PNG/WEBP)</p>
+
+      <h3 className="text-2xl font-bold text-gray-900 mb-2">Upload Image</h3>
+      <p className="text-gray-500 max-w-xs mx-auto mb-6">
+        Drag & drop or click to upload. Supports JPG, PNG, WEBP up to 20MB.
+      </p>
+
+      {/* Fake UI Element to match reference button style */}
+      <div className="inline-flex items-center gap-2 px-5 py-2 bg-black text-white rounded-full text-sm font-semibold group-hover:bg-gray-800 transition-colors">
+        Choose File <ArrowUpRight size={16} />
+      </div>
     </div>
   );
 }
