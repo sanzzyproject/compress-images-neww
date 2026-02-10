@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import UploadArea from '@/components/UploadArea';
 import SliderQuality from '@/components/SliderQuality';
 import ImagePreview from '@/components/ImagePreview';
-import { Loader2, Check, Zap, Lock, Smartphone } from 'lucide-react';
+import { Loader2, Smartphone, Zap } from 'lucide-react';
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -47,159 +47,114 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FAFAFA] selection:bg-green-100">
+    <main className="min-h-screen pb-10">
       <Header />
 
-      {/* HERO SECTION MATCHING REFERENCE */}
-      <section className="pt-32 pb-10 px-4 max-w-5xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-white mb-6 shadow-sm">
-          <span className="flex h-2 w-2 rounded-full bg-black"></span>
-          <span className="text-xs font-bold text-gray-800 uppercase tracking-wide">Image Tool V1.0</span>
+      {/* HERO SECTION */}
+      <section className="pt-24 pb-6 px-5 max-w-lg mx-auto text-center">
+        
+        {/* Badge Kecil */}
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-gray-100 shadow-sm mb-5">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </span>
+          <span className="text-[10px] font-bold text-gray-600 tracking-wide uppercase">V1.0 Live</span>
         </div>
         
-        <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.1] mb-6">
-          Image compression that <br className="hidden md:block" />
-          works like <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">Magic</span>
+        {/* Headline dengan Typing Effect */}
+        <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
+          Kompresi Gambar <br/>
+          seperti <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600 typewriter-text">Magic</span>
         </h1>
         
-        <p className="text-lg text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Great visuals deserve a system that optimizes them fast. From huge raw files to smooth web-ready images in seconds.
+        <p className="text-sm text-gray-500 max-w-xs mx-auto mb-8 leading-relaxed">
+          Optimalkan visual Anda dengan cepat. Tanpa ribet, tanpa antrian, privasi terjaga.
         </p>
 
-        <div className="flex justify-center gap-4 mb-16">
-          <button className="btn-black px-8 py-3.5 text-base shadow-xl shadow-gray-200">
-            Start Compressing
+        {/* Tombol yang lebih proporsional */}
+        <div className="flex justify-center gap-3">
+          <button 
+            onClick={() => document.getElementById('upload-area')?.scrollIntoView({ behavior: 'smooth' })}
+            className="btn-primary px-6 py-2.5 shadow-lg shadow-gray-200 hover:shadow-xl"
+          >
+            Mulai Kompres
           </button>
-          <button className="px-8 py-3.5 bg-white text-gray-900 font-semibold rounded-full border border-gray-200 hover:bg-gray-50 transition-colors">
-            View Source
+          <button className="px-6 py-2.5 bg-white text-gray-700 font-semibold rounded-full border border-gray-200 text-sm hover:bg-gray-50 transition-colors">
+            Info Teknis
           </button>
         </div>
       </section>
 
-      {/* DASHBOARD GRID LAYOUT (The "Dashboard" in reference) */}
-      <section className="px-4 pb-20 max-w-6xl mx-auto">
-        {/* Main Container mimicking the big image in reference */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      {/* DASHBOARD AREA */}
+      <section id="upload-area" className="px-4 max-w-md mx-auto">
+        <div className="flex flex-col gap-4">
           
-          {/* Left Column: Upload or Control */}
-          <div className="md:col-span-7 flex flex-col gap-6">
-            {/* Upload Card */}
-            <div className="card-clean p-1">
-               <UploadArea onFileSelect={handleFileSelect} />
+          {/* Upload Card */}
+          <div className="card-clean p-1.5">
+             <UploadArea onFileSelect={handleFileSelect} />
+          </div>
+          
+          {/* Slider (Muncul setelah file dipilih) */}
+          {file && (
+            <div className="card-clean animate-in fade-in slide-in-from-bottom-4 duration-500">
+               <SliderQuality quality={quality} setQuality={setQuality} disabled={isLoading} />
             </div>
-            
-            {/* Control Slider (Only show if file selected) */}
-            {file && (
-              <div className="card-clean animate-in fade-in slide-in-from-bottom-4 duration-500">
-                 <SliderQuality quality={quality} setQuality={setQuality} disabled={isLoading} />
-              </div>
-            )}
+          )}
+
+          {/* Action Button & Result */}
+          <div className="card-clean p-5 text-center bg-white relative overflow-hidden">
+             {!file ? (
+               <div className="flex flex-col items-center justify-center py-4 gap-2 opacity-50">
+                  <Smartphone size={24} />
+                  <p className="text-xs font-medium">Siap untuk Mobile</p>
+               </div>
+             ) : (
+               <div className="z-10 relative">
+                  {/* Preview Kecil */}
+                  <div className="h-40 w-full bg-gray-50 rounded-xl mb-4 overflow-hidden border border-gray-100 relative">
+                    <img 
+                      src={compressedImage || URL.createObjectURL(file)} 
+                      className="w-full h-full object-contain" 
+                      alt="Preview"
+                    />
+                    {compressedImage && (
+                      <div className="absolute top-2 right-2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+                        Selesai
+                      </div>
+                    )}
+                  </div>
+
+                  <button
+                     onClick={handleCompress}
+                     disabled={isLoading}
+                     className="w-full bg-black text-white font-bold py-2.5 rounded-xl text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                   >
+                     {isLoading ? <Loader2 className="animate-spin" size={16}/> : <Zap size={16} />}
+                     {isLoading ? "Memproses..." : (compressedImage ? "Download Hasil" : "Kompres Sekarang")}
+                   </button>
+                  
+                  {compressedImage && (
+                     <a href={compressedImage} download={`compressed-${file.name}`} className="hidden" id="download-link"></a>
+                  )}
+                  {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
+               </div>
+             )}
           </div>
 
-          {/* Right Column: Features or Preview */}
-          <div className="md:col-span-5 flex flex-col gap-6">
-             {/* Info Cards (Mocking the "Step 1/2" cards) */}
-             <div className="grid grid-cols-2 gap-4">
-                <InfoCard label="Privacy" value="100%" sub="Local RAM" icon={<Lock size={16}/>} />
-                <InfoCard label="Speed" value="0.2s" sub="Serverless" icon={<Zap size={16}/>} />
+          {/* Detailed Stats (Only visible if compressed) */}
+          {file && compressedImage && (
+             <div className="card-clean p-5 animate-in fade-in slide-in-from-bottom-6">
+                <ImagePreview originalFile={file} compressedImage={compressedImage} compressedSize={compressedSize} />
              </div>
-
-             {/* Action / Preview Area */}
-             <div className="card-clean p-6 flex-grow flex flex-col justify-center items-center text-center bg-gray-900 text-white min-h-[250px] relative overflow-hidden">
-                {!file ? (
-                  <div className="z-10">
-                    <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Smartphone className="text-white" />
-                    </div>
-                    <h3 className="font-bold text-lg">Mobile Ready</h3>
-                    <p className="text-gray-400 text-sm mt-2">Optimized for all your devices.</p>
-                  </div>
-                ) : (
-                  <div className="w-full h-full flex flex-col z-10">
-                     <div className="flex-grow relative w-full rounded-xl overflow-hidden mb-4 bg-gray-800">
-                        {/* Simple Preview if not compressed yet */}
-                        <img 
-                          src={URL.createObjectURL(file)} 
-                          className={`w-full h-full object-contain ${compressedImage ? 'opacity-50' : 'opacity-100'}`} 
-                        />
-                        {compressedImage && (
-                          <img 
-                            src={compressedImage} 
-                            className="absolute inset-0 w-full h-full object-contain" 
-                          />
-                        )}
-                     </div>
-                     <button
-                        onClick={handleCompress}
-                        disabled={isLoading}
-                        className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-gray-100 transition-colors disabled:opacity-50"
-                      >
-                        {isLoading ? "Processing..." : (compressedImage ? "Download Again" : "Compress Now")}
-                      </button>
-                     {error && <p className="text-red-400 text-xs mt-2">{error}</p>}
-                  </div>
-                )}
-                
-                {/* Background Decor */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/20 blur-[60px] rounded-full pointer-events-none"></div>
-             </div>
-          </div>
+          )}
         </div>
-        
-        {/* Full Width Preview Section (If Compressed) */}
-        {file && compressedImage && (
-           <div className="mt-6 card-clean p-6 md:p-8 animate-in fade-in slide-in-from-bottom-8">
-              <h3 className="font-bold text-xl mb-6">Result Comparison</h3>
-              <ImagePreview originalFile={file} compressedImage={compressedImage} compressedSize={compressedSize} />
-           </div>
-        )}
       </section>
 
-      {/* FOOTER BLACK ROUNDED */}
-      <footer className="px-4 pb-4">
-        <div className="bg-[#111] rounded-[2.5rem] p-8 md:p-16 text-white text-center md:text-left">
-           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
-              <div className="md:col-span-2">
-                 <h2 className="text-2xl font-bold mb-4">Start Simplifying Your<br/>Images Today!</h2>
-                 <div className="flex gap-4 justify-center md:justify-start">
-                    <button className="bg-white text-black px-6 py-2.5 rounded-full font-bold text-sm">Get Started</button>
-                    <button className="border border-white/20 px-6 py-2.5 rounded-full font-bold text-sm hover:bg-white/10">Contact</button>
-                 </div>
-              </div>
-              <div>
-                 <h4 className="font-bold mb-4 text-gray-400 text-sm uppercase">Platform</h4>
-                 <ul className="space-y-2 text-sm text-gray-300">
-                    <li>Next.js</li>
-                    <li>Vercel</li>
-                    <li>Sharp</li>
-                 </ul>
-              </div>
-              <div>
-                 <h4 className="font-bold mb-4 text-gray-400 text-sm uppercase">Legal</h4>
-                 <ul className="space-y-2 text-sm text-gray-300">
-                    <li>Privacy</li>
-                    <li>Terms</li>
-                    <li>© 2026 Sann404</li>
-                 </ul>
-              </div>
-           </div>
-        </div>
+      {/* Simple Footer */}
+      <footer className="text-center mt-10 text-[10px] text-gray-400">
+        © 2026 Sann404. Serverless Tech.
       </footer>
     </main>
   );
-}
-
-function InfoCard({ label, value, sub, icon }: any) {
-  return (
-    <div className="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between h-28">
-       <div className="flex justify-between items-start">
-          <span className="text-gray-500 text-xs font-semibold uppercase">{label}</span>
-          <div className="p-1.5 bg-gray-50 rounded-full text-black">{icon}</div>
-       </div>
-       <div>
-          <div className="text-2xl font-bold text-gray-900">{value}</div>
-          <div className="text-xs text-green-600 font-medium">{sub}</div>
-       </div>
-    </div>
-  )
 }
